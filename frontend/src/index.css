@@ -1,0 +1,29 @@
+body{
+    background-color: black;
+}
+.topNav{
+    border-bottom: 1px solid #ffffff34;
+}
+
+.textarea {
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 1px 6px;
+  }
+
+  .textarea {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    resize: both;
+    min-height: 40px;
+    line-height: 20px;
+  }
+  
+  .textarea[contenteditable]:empty::before {
+    content: "Placeholder still possible";
+    color: gray;
+  }
+
+@import "tailwindcss"
