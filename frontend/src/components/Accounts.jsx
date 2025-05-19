@@ -11,7 +11,7 @@ const Accounts = ({info}) => {
     const follow = async(userId)=> {
         const response = await fetch("http://localhost:3000/api/account/follow", {
             method: "PUT",
-            body: JSON.stringify({followWho: userId, follower: myId}),
+            body: JSON.stringify({followWho: userId, follower: myId, eventType: "follow"}),
             headers: {
                 "Content-Type" : "application/json"
             }
@@ -22,7 +22,6 @@ const Accounts = ({info}) => {
             console.log(json.error)
         }
         if(response.ok) {
-            console.log("followed")
             updateFollowings(userId)
         }
     }

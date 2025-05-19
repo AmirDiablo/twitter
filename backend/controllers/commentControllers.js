@@ -1,4 +1,5 @@
 const Comment = require("../models/commentModel")
+const Notification = require("../models/notificationModel")
 
 
 const fetchComments = async(req, res)=> {
@@ -11,9 +12,7 @@ const fetchComments = async(req, res)=> {
 }
 
 const postComment = async(req, res)=> {
-    const { userId, text, postId, replyTo, mainComment } = req.body
-
-    console.log(replyTo)
+    const { userId, text, postId, replyTo, mainComment, authorId, commentOwner } = req.body
 
     try{
         const comment = await Comment.create({text, userId, postId, replyTo, mainComment})
@@ -21,10 +20,13 @@ const postComment = async(req, res)=> {
 
         if(replyTo !== undefined) {
             const update = await Comment.updateOne({_id: replyTo}, {$push: {repliesList: commentId}})
+            const sendNotif = await Notification.create({eventType: "reply", who: userId, post: postId, account: commentOwner, comment: commentId})
         }
 
         const populated = await Comment.findOne({_id: commentId})
         .populate("userId")
+
+        const sendNotif = await Notification.create({eventType: "comment", who: userId, post: postId, account: authorId , comment: commentId})
 
         res.status(200).json(populated)
     }catch(error){

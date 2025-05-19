@@ -5,12 +5,13 @@ import { useUser } from "../contexts/userContext";
 import { MdOutlineReply } from "react-icons/md";
 import { useRef } from "react";
 
-const Comments = ({PostId, isOpen}) => {
+const Comments = ({PostId, isOpen, authorId}) => {
     const { fetchComments, addComment, comments } = useComment()
     const { user } = useUser()
     const [text, setText] = useState('')
     const [ replyTo, setReplyTo ] = useState(null)
     const [replies, setReplies] = useState([])
+    const [commentOwner, setCommentOwner] = useState() //we only need this info for making a notif
     const [main, setMain] = useState(null)
 
     useEffect(()=> {
@@ -18,7 +19,7 @@ const Comments = ({PostId, isOpen}) => {
     }, [PostId])
 
     const postComment = (userId)=> {
-        addComment(userId, text, PostId, replyTo, main)
+        addComment(userId, text, PostId, replyTo, main, authorId, commentOwner)
         setReplyTo(null)
         setText("")
     }
@@ -53,13 +54,13 @@ const Comments = ({PostId, isOpen}) => {
                                             <p className="font-[700] text-[13px]">{rep.userId.username} {rep.replyTo._id === rep.mainComment ? "" : <><span className="text-blue-500">replied to</span> {rep.replyTo.userId.username}</>}</p>
                                             <p className="text-[13px]">{rep.text}</p>
                                         </div>
-                                        <MdOutlineReply onClick={()=> { setReplyTo(rep._id), setMain(item._id) } } className="absolute right-5 top-2 text-xl" />
+                                        <MdOutlineReply onClick={()=> { setReplyTo(rep._id), setMain(item._id), setCommentOwner(item.userId._id) } } className="absolute right-5 top-2 text-xl" />
 
                                     </div>
                                 ))}
                             </details> : ""}
                         </div>
-                        <MdOutlineReply onClick={()=> {setReplyTo(item._id) ,setMain(item._id)}} className="absolute right-5 top-2 text-xl" />
+                        <MdOutlineReply onClick={()=> {setReplyTo(item._id) ,setMain(item._id), setCommentOwner(item.userId._id)}} className="absolute right-5 top-2 text-xl" />
                     </div>
                 ))}
             </div>

@@ -1,5 +1,6 @@
 const validator = require("validator")
 const Post = require("../models/postModel")
+const Notification = require("../models/notificationModel")
 const Account = require("../models/accountModel")
 
 const trimer = (value)=> {
@@ -69,6 +70,14 @@ const createPost = async(req, res)=> {
 
     try{
         const post = await Post.create({content, author: user, type, whoCanReply: permission, mention: mentions, category: hashtags, status: status, scheduledTime: scheduledDate})
+        if(mentions) {
+            for(let i=0; i<mentions.length; i++) {
+                const mentionedAccount = mentions[i].slice(1)
+                const findAccount = await Account.findOne({username: mentionedAccount})
+                const findId = findAccount._id
+                const sendNotif = await Notification.create({eventType: "mention", who: user, post: post._id, account: findId})
+            }
+        }
         res.status(200).json(post)
     }catch(error){
         res.status(400).json({error: error.message})
@@ -112,7 +121,7 @@ const userPosts = async(req, res)=> {
 }
 
 const like = async(req, res)=> {
-    const { postId, userId } = req.body
+    const { postId, userId, postOwner, eventType } = req.body
 
     const check = await Post.findOne({_id: postId, likes: userId})
 
@@ -120,6 +129,7 @@ const like = async(req, res)=> {
 
     if(!check) {
         const like = await Post.updateOne({_id: postId}, {$push: {likes: userId}})
+        const sendNotif = await Notification.create({eventType, who: userId, post: postId, account: postOwner})
     }else{
         const unlike = await Post.updateOne({_id: postId}, {$pull: {likes: userId}})
     }

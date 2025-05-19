@@ -15,12 +15,13 @@ const Posts = ({allPosts}) => {
     const { user } = useUser()
     const [isOpen, setIsOpen] = useState(false)
     const [postId, setPostId] = useState()
+    const [authorId, setAuthorId] = useState()
     const navigate = useNavigate()
 
-    const like = async(postId)=> {
+    const like = async(postId, postOwner)=> {
         const response = await fetch("http://localhost:3000/api/post/like", {
             method: "PUT",
-            body: JSON.stringify({postId, userId: user.userInfo[0]._id}),
+            body: JSON.stringify({postId, userId: user.userInfo[0]._id, postOwner, eventType: "like"}),
             headers: {
                 "Content-Type" : "application/json"
             }
@@ -38,8 +39,9 @@ const Posts = ({allPosts}) => {
         })
     }
 
-    const openComments = (postId)=> {
+    const openComments = (postId, author)=> {
         setPostId(postId)
+        setAuthorId(author)
         setIsOpen(true)
     }
 
@@ -63,10 +65,10 @@ const Posts = ({allPosts}) => {
                             </div>
 
                             <div className='flex justify-around mt-4 items-center'>
-                                <div><FaRegComment onClick={()=> openComments(item._id)}/></div>
+                                <div><FaRegComment onClick={()=> openComments(item._id, item.author._id)}/></div>
                                 <div><BiRepost className='text-[23px]'/></div>
-                                <div onClick={()=> like(item._id)}>{item.likes.includes(user.userInfo[0]._id) ? <FaHeart className='text-red-500' /> : <FaRegHeart />}</div>
-                                <div onClick={()=> bookmark(item._id)}>{item.likes.includes(user.userInfo[0]._id) ? <IoBookmark /> : <FaRegBookmark />}</div>
+                                <div onClick={()=> like(item._id, item.author._id)}>{item.likes.includes(user.userInfo[0]._id) ? <FaHeart className='text-red-500' /> : <FaRegHeart />}</div>
+                                <div onClick={()=> bookmark(item._id)}>{item.bookmarks.includes(user.userInfo[0]._id) ? <IoBookmark /> : <FaRegBookmark />}</div>
                             </div>
                         </div>
                     }
@@ -74,7 +76,7 @@ const Posts = ({allPosts}) => {
             ))}
 
             {isOpen && <div onClick={()=> setIsOpen(false)} className='bg-gray-700/50 w-screen h-screen absolute top-0'></div>}
-            {isOpen && <Comments PostId={postId} isOpen={isOpen} />}
+            {isOpen && <Comments PostId={postId} isOpen={isOpen} authorId={authorId} />}
         </div>
     );
 }

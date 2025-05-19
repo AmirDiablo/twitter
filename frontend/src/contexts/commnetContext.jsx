@@ -14,10 +14,10 @@ export const CommentProvider = ({ children })=> {
         }
     }
 
-    const addComment = async(userId, text, postId, replyTo, mainComment)=> {
+    const addComment = async(userId, text, postId, replyTo, mainComment, authorId, commentOwner)=> {
          const response = await fetch("http://localhost:3000/api/comment/postComment", {
             method: "POST",
-            body: JSON.stringify({userId, text, postId, replyTo, mainComment}),
+            body: JSON.stringify({userId, text, postId, replyTo, mainComment, authorId, commentOwner}),
             headers: {
                 "Content-Type" : "application/json"
             }

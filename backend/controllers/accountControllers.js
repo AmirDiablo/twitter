@@ -1,4 +1,5 @@
 const Account = require('../models/accountModel')
+const Notification = require("../models/notificationModel")
 const validator = require("validator")
 const jwt = require("jsonwebtoken")
 
@@ -51,12 +52,13 @@ const profile = async(req, res)=> {
 }
 
 const follow = async(req, res)=> {
-    const { followWho, follower } = req.body
+    const { followWho, follower, eventType } = req.body
     const check = await Account.findOne({_id: followWho, followers: follower})
 
     if(!check) {
         const changeFollowers = await Account.updateOne({_id: followWho}, {$push: {followers: follower}})
         const changeFollowings = await Account.updateOne({_id: follower}, {$push: {followings: followWho}})
+        const sendNotif = await Notification.create({eventType, who: follower, account: followWho})
     }else{
         const changeFollowers = await Account.updateOne({_id: followWho}, {$pull: {followers: follower}})
         const changeFollowings = await Account.updateOne({_id: follower}, {$pull: {followings: followWho}})
@@ -99,4 +101,27 @@ const searchPeople = async(req, res)=> {
     
 }
 
-module.exports = { userSignup, userLogin, profile, follow, liveSearch, searchPeople }
+const bookmarks = async(req, res)=> {
+    const { userId } = req.params
+
+    try{
+        const findAccount = await Account.findOne({_id: userId}).select("bookmarks").select("-_id")
+        .populate({
+            path: "bookmarks",
+            populate: {
+                path: "author"
+            }
+        })
+
+        const bookmarks = findAccount.bookmarks
+
+        res.status(200).json(bookmarks)
+    }catch (error) {
+        console.log(error)
+    }
+
+    
+
+}
+
+module.exports = { userSignup, userLogin, profile, follow, liveSearch, searchPeople, bookmarks }

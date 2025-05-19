@@ -9,6 +9,8 @@ import Notification from "./pages/Notification"
 import CreatePost from "./pages/CreatePost"
 import Explore from "./pages/Explore"
 import Search from "./pages/Search"
+import OpenedPost from "./pages/OpenedPost"
+import Bookmarks from "./pages/Bookmarks"
 import { useUser } from "./contexts/userContext"
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
           <Route path="createPost" element={user ? <CreatePost /> : <SignUp />} />
           <Route path="explore" element={user ? <Explore /> : <SignUp />} />
           <Route path="search" element={user ? <Search /> : <SignUp />} />
+          <Route path="openedPost" element={user ? <OpenedPost /> : <SignUp />} />
+          <Route path="bookmarks" element={user ? <Bookmarks /> : <SignUp />} />
         </Routes>
       </div>
       <Create />

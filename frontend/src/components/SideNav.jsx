@@ -26,7 +26,7 @@ const SideNav = () => {
                 <IoPersonOutline />
                 <p>profile</p>
             </div>
-            <div className="flex items-center gap-3 text-xl font-[500] py-2 px-3">
+            <div onClick={()=> open("bookmarks")} className="flex items-center gap-3 text-xl font-[500] py-2 px-3">
                 <IoBookmarkOutline />
                 <p>bookmarks</p>
             </div>
