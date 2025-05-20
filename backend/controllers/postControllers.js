@@ -85,13 +85,27 @@ const createPost = async(req, res)=> {
 }
 
 const allPosts = async(req, res)=> {
-    try{
-        const posts = await Post.find({status: "published"})
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const total = await Post.countDocuments();
+        const posts = await Post.find()
         .populate("author")
-        res.status(200).json(posts)
+        .skip(skip)
+        .limit(limit);
+
+        res.json({
+            posts,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit),
+        });
+
     }catch(error){
-        console.log(err)
-        res.status(400).json({error: err.message})
+        console.log(error)
+        res.status(400).json({error: error.message})
     }
 }
 
