@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useUser } from "../contexts/userContext";
+import { useNavigate } from "react-router";
 
 
 export const useLogin = () => {
     const [isLoading, setIsLoading] = useState(null)
     const [error, setError] = useState(null)
     const { login } = useUser()
+    const navigate = useNavigate()
 
     const loginAccount = async(email, password)=> {
         setIsLoading(true)
@@ -29,6 +31,7 @@ export const useLogin = () => {
             localStorage.setItem("user", JSON.stringify(json))
             setIsLoading(false)
             login(json)
+            navigate("/")
         }
     }
 

@@ -103,7 +103,7 @@ const CreatePost = () => {
             </div>
 
             <div className="flex items-start gap-3 px-5 mt-5">
-                <img src={"./profiles/"+user.userInfo[0].profile} className="size-10 rounded-full" />
+                <img src={"http://localhost:3000/uploads/profiles/"+user.userInfo[0].profile} className="size-10 rounded-full" />
                 <textarea onChange={(e)=> setText(e.target.value)} value={text} className="text-white outline-none w-[100%] h-30 resize-none wrap-break-word" placeholder="what's happening?" />
             </div>
 

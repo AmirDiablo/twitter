@@ -57,8 +57,8 @@ const ExploreTop = ({openNav}) => {
                     <input onChange={(e)=> setQuery(e.target.value)} type="search" className="bg-white text-black w-[100%] rounded-full ml-auto mr-auto p-1 pl-10" />
                     <div className="bg-white  rounded-2xl mt-1 absolute left-0 right-0">
                         {results.map((item)=> (
-                            <div onClick={()=> navigate("/profile", {state: {userInfo: [item]}})} className="flex gap-3 p-2">
-                                <img src={"./profiles/"+item.profile} className="size-8 rounded-full"  />
+                            <div onClick={()=> navigate(`/profile/?userId=${item._id}`)} className="flex gap-3 p-2">
+                                <img src={"http://localhost:3000/uploads/profiles/"+item.profile} className="size-8 rounded-full"  />
                                 <p className="text-black font-[700]">{item.username}</p>
                             </div>
                         ))}

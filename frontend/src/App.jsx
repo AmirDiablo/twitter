@@ -33,7 +33,7 @@ function App() {
         </Routes>
       </div>
       <Create />
-      <BottomNav />
+      {user && <BottomNav />}
     </BrowserRouter>
   )
 }

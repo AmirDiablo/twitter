@@ -14,6 +14,7 @@ const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
+app.use("/uploads", express.static("uploads"))
 /* app.use(requireAuth) */
 app.use(cors())
 app.use("/api/account", accountRoutes)

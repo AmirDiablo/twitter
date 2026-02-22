@@ -8,14 +8,16 @@ const SideNav = () => {
     const { user } = useUser()
     const navigate = useNavigate()
 
+    console.log(user)
+
     const open = (page)=> {
-        navigate("/"+page, {state: {userInfo: user.userInfo}})
+        navigate(`/${page}/?userId=${user.userInfo[0]._id}`)
     }
 
     return ( 
         <div className="text-white fixed bg-black top-0 left-0 bottom-0 w-[60%] z-11">
             <div className="px-3 py-4">
-                <img src={"./profiles/"+user.userInfo[0].profile} className="size-10 rounded-full "/>
+                <img src={"http://localhost:3000/uploads/profiles/"+user.userInfo[0].profile} className="size-10 rounded-full "/>
                 <p className="font-[700]">{user.userInfo[0].username}</p>
                 <div className="flex gap-3">
                     <div> <p className="text-gray-500 inline">following</p> {user.userInfo[0].followings.length}</div>

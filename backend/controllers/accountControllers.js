@@ -64,7 +64,14 @@ const follow = async(req, res)=> {
         const changeFollowings = await Account.updateOne({_id: follower}, {$pull: {followings: followWho}})
     }
 
-    res.status(200).json({message: "updates done"})
+    const account = await Account.findOne({_id: followWho})
+    const followers = []
+    for(let i=0; i<account.followers.length; i++) {
+        const id = account.followers[i].toString()
+        followers.push(id)
+    }
+
+    return res.status(200).json({followers: followers})
 }
 
 const liveSearch = async(req, res)=> {

@@ -37,14 +37,14 @@ export const CommentProvider = ({ children })=> {
 
     }
 
-    useEffect(()=> {
+    /* useEffect(()=> {
         const user = JSON.parse(localStorage.getItem('user'))
 
         if (user) {
             console.log("sljv")
         }
 
-    }, [])
+    }, []) */
 
     console.log(comments)
     

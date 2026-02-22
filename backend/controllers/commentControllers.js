@@ -16,17 +16,22 @@ const postComment = async(req, res)=> {
 
     try{
         const comment = await Comment.create({text, userId, postId, replyTo, mainComment})
+        console.log("line21")
         const commentId = comment._id
 
-        if(replyTo !== undefined) {
+        if(replyTo !== null) {
             const update = await Comment.updateOne({_id: replyTo}, {$push: {repliesList: commentId}})
+            console.log("line26")
             const sendNotif = await Notification.create({eventType: "reply", who: userId, post: postId, account: commentOwner, comment: commentId})
+            console.log("line28")
         }
 
         const populated = await Comment.findOne({_id: commentId})
         .populate("userId")
+        console.log("line33")
 
         const sendNotif = await Notification.create({eventType: "comment", who: userId, post: postId, account: authorId , comment: commentId})
+        console.log("line36")
 
         res.status(200).json(populated)
     }catch(error){

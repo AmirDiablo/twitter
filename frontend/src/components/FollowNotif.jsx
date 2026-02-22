@@ -35,7 +35,7 @@ const FollowNotif = ({notifs}) => {
                         <div className="text-white p-5 w-screen">
                             <div className="flex items-center relative">
                                 <div onClick={()=> navigate("/profile", {state: {userInfo: [item.who]}})} className="flex items-center gap-3 w-[75%]">
-                                    <img src={"./profiles/"+item.who.profile} className="size-18 rounded-full" />
+                                    <img src={"http://localhost:3000/uploads/profiles/"+item.who.profile} className="size-18 rounded-full" />
                                     <div className="text-xl"><p className="font-[700] inline">{item.who.username}</p> started following you</div>
                                 </div>
                                 {followings.includes(item.who._id) === true ? <div className="border-1 border-gray-500 text-white w-max rounded-full py-1 px-3 absolute right-3" onClick={()=> follow(item.who._id)}>unFollow</div> : <button onClick={()=> follow(item.who._id)} className="bg-white text-black border-1 border-gray-500 rounded-full py-1 absolute right-3 px-5">Follow</button>}

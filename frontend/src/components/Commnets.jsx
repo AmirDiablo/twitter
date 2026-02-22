@@ -39,7 +39,7 @@ const Comments = ({PostId, isOpen, authorId}) => {
             <div className="overflow-y-auto h-[90%]"> 
                 {comments.map((item)=> (
                     <div className="relative flex flex-rows gap-2 items-start mb-5 leading-4">
-                        <img src={"./profiles/"+item.userId.profile} className="size-9 rounded-full"  />
+                        <img src={"http://localhost:3000/uploads/profiles/"+item.userId.profile} className="size-9 rounded-full"  />
                         <div>
                             <p className="font-[700]">{item.userId.username}</p>
                             <p>{item.text}</p>
@@ -49,7 +49,7 @@ const Comments = ({PostId, isOpen, authorId}) => {
                                 {replies.map((rep)=> (
                                     <div className="mt-2 relative flex flex-rows gap-2 items-start mb-5 leading-4 w-[calc(100vw-99px)]">
             
-                                        <img src={"./profiles/"+rep.userId.profile} className="size-6 rounded-full"  />
+                                        <img src={"http://localhost:3000/uploads/profiles/"+rep.userId.profile} className="size-6 rounded-full"  />
                                         <div>
                                             <p className="font-[700] text-[13px]">{rep.userId.username} {rep.replyTo._id === rep.mainComment ? "" : <><span className="text-blue-500">replied to</span> {rep.replyTo.userId.username}</>}</p>
                                             <p className="text-[13px]">{rep.text}</p>

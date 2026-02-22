@@ -8,16 +8,22 @@ import { useUser } from "../contexts/userContext";
 
 const Profile = () => {
     const navigate = useNavigate()
-    const { state } = useLocation()
-    const { userInfo } = state
     const [posts, setPosts] = useState([])
+    const [userInfo, setUserInfo] = useState([])
 
     const { user, updateFollowings, followings } = useUser()
 
-    console.log(followings)
-
     const myId = user.userInfo[0]._id
-    const userId = userInfo[0]._id
+    const userId = useLocation().search.split("=")[1]
+
+    const fetchUserInfo = async()=> {
+        const response = await fetch("http://localhost:3000/api/account/profile/"+userId)
+        const json = await response.json()
+
+        if(response.ok) {
+            setUserInfo(json)
+        }
+    }
 
     const fetchPosts = async()=> {
         const response = await fetch("http://localhost:3000/api/post/userPosts/"+userId)
@@ -29,6 +35,7 @@ const Profile = () => {
     }
 
     useEffect(()=> {
+        fetchUserInfo()
         fetchPosts()
     }, [])
 
@@ -36,7 +43,7 @@ const Profile = () => {
     const follow = async()=> {
         const response = await fetch("http://localhost:3000/api/account/follow", {
             method: "PUT",
-            body: JSON.stringify({followWho: userId, follower: myId}),
+            body: JSON.stringify({eventType: "follow" ,followWho: userId, follower: myId}),
             headers: {
                 "Content-Type" : "application/json"
             }
@@ -47,8 +54,9 @@ const Profile = () => {
             console.log(json.error)
         }
         if(response.ok) {
-            console.log("followed")
             updateFollowings(userInfo[0]._id)
+            userInfo[0].followers = json.followers
+            console.log(userInfo)
         }
     }
 
@@ -62,18 +70,20 @@ const Profile = () => {
                         <IoMdArrowRoundBack onClick={()=> navigate(-1)} className="text-2xl"/>
                         <div>
                             <p className="">{item.username}</p>
-                            <p className="text-[12px] text-gray-400">100 posts</p>
+                            <p className="text-[12px] text-gray-400">{posts.length} posts</p>
                         </div>
                     </div>
 
                     <div className="header relative">
-                        {item.header ? <img src={"./headers/"+item.header} className="h-25" /> : <div className="h-25 bg-gray-700"></div>}
-                        <img src={'./profiles/'+item.profile} className="absolute -bottom-10 left-5 rounded-full size-19" />
+                        {item.header ? <img src={"http://localhost:3000/uploads/headers/"+item.header} className="h-25" /> : <div className="h-25 bg-gray-700"></div>}
+                        <img src={'http://localhost:3000/uploads/profiles/'+item.profile} className="absolute -bottom-10 left-5 rounded-full size-19" />
                     </div>
 
                     <div className="px-5 pt-15 relative">
                         <p className="font-[700]">{item.username}</p>
-                        <p className="text-gray-500 flex items-center gap-1"><CgCalendarDates /> Joiend {format(new Date(item.createdAt), "yyyy-mm-dd")}</p>
+                        <p className="text-gray-500 flex items-center gap-1">
+                            <CgCalendarDates /> Joined {format(new Date(item.createdAt), "yyyy-MM-dd")}
+                        </p>
                         <div className="flex gap-6">
                             <div className="flex gap-1">
                                 <p>{item.followings.length}</p>
@@ -85,7 +95,11 @@ const Profile = () => {
                             </div>
                         </div>
 
-                        {userId === myId ? <button className=" border-1 border-gray-500 rounded-full py-1 absolute top-3 right-3 px-5">Edit profile</button> : <>{followings.includes(userInfo[0]._id) === true ? <div className="border-1 border-gray-500 text-white w-max rounded-full py-1 px-3 absolute top-3 right-3" onClick={follow}>unFollow</div> : <button onClick={follow} className="bg-white text-black border-1 border-gray-500 rounded-full py-1 absolute top-3 right-3 px-5">Follow</button>}</>}
+                        {userId === myId ? <button className=" border-1 border-gray-500 rounded-full py-1 absolute top-3 right-3 px-5">Edit profile</button> :
+                            <>{followings.includes(userInfo[0]._id) === true ? <div className="border-1 border-gray-500 text-white w-max rounded-full py-1 px-3 absolute top-3 right-3" onClick={follow}>unFollow</div> :
+                                 <button onClick={follow} className="bg-white text-black border-1 border-gray-500 rounded-full py-1 absolute top-3 right-3 px-5">Follow</button>}
+                            </>
+                        }
                     </div>
 
                     <Posts allPosts={posts}/>
