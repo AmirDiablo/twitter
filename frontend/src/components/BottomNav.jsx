@@ -12,10 +12,8 @@ const BottomNav = () => {
 
     path.current = useLocation().pathname
 
-    console.log(path)
-
     return (  
-        <div className="flex justify-between px-10 py-3 bg-black text-white fixed bottom-0 left-0 right-0">
+        <div className="md:hidden flex justify-around px-10 py-3 bg-black text-white fixed bottom-0 left-0 right-0">
             {path.current === '/' ? <GoHomeFill className="text-3xl" />  : <GoHome onClick={()=> navigate('/')} className="text-3xl" />}
             <FiSearch onClick={()=> navigate("/explore")} className="text-3xl" />
             {path.current === '/notification' ? <IoNotificationsSharp className="text-3xl" /> : <IoNotificationsOutline onClick={()=> navigate('/notification')} className="text-3xl" />}

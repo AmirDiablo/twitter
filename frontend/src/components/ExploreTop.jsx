@@ -25,15 +25,15 @@ const ExploreTop = ({openNav}) => {
         debounceTimeout.current = setTimeout(()=> {
             setLoading(true)
             fetch(`http://localhost:3000/api/account/liveSearch?q=${encodeURIComponent(query)}`)
-            .then((res)=> res.json())
-            .then((data)=> {
-                setResults(data)
-                setLoading(false)
-            })
-            .catch(()=> {
-                setResults([])
-                setLoading(false)
-            })
+                .then((res)=> res.json())
+                .then((data)=> {
+                    setResults(data)
+                    setLoading(false)
+                })
+                .catch(()=> {
+                    setResults([])
+                    setLoading(false)
+                })
         }, 300)
 
         return ()=> clearTimeout(debounceTimeout.current)
@@ -48,25 +48,25 @@ const ExploreTop = ({openNav}) => {
         navigate(`/search?${query}`)
     }
 
-    return ( 
-        <div className="fixed top-0 left-0 right-0 topNav bg-black/30 backdrop-blur-2xl">
-            <div className="flex gap-5 px-5 py-5 text-white">
-                <IoReorderThree onClick={open} className="text-3xl"/>
-                <form onSubmit={search} className="relative w-[66%] ml-10">
-                    <div className="bg-gray-300 text-xl text-black h-max w-max p-[6px] rounded-full absolute top-0"><FiSearch onClick={search} /></div>
-                    <input onChange={(e)=> setQuery(e.target.value)} type="search" className="bg-white text-black w-[100%] rounded-full ml-auto mr-auto p-1 pl-10" />
-                    <div className="bg-white  rounded-2xl mt-1 absolute left-0 right-0">
-                        {results.map((item)=> (
-                            <div onClick={()=> navigate(`/profile/?userId=${item._id}`)} className="flex gap-3 p-2">
-                                <img src={"http://localhost:3000/uploads/profiles/"+item.profile} className="size-8 rounded-full"  />
-                                <p className="text-black font-[700]">{item.username}</p>
-                            </div>
-                        ))}
-                    </div>
-                </form>
-            </div>
+return (
+    <div className="sticky top-0 left-0 right-0 topNav bg-black/30 backdrop-blur-2xl z-10">
+        <div className="flex justify-center px-5 py-5 text-white">
+            <form onSubmit={search} className="relative w-[66%]">
+                <div className="bg-gray-300 text-xl text-black h-max w-max p-[6px] rounded-full absolute top-0"><FiSearch onClick={search} /></div>
+                <input onChange={(e)=> setQuery(e.target.value)} type="search" className="bg-white text-black w-[100%] rounded-full ml-auto mr-auto p-1 pl-10" />
+                <div className="bg-white rounded-2xl mt-1 absolute left-0 right-0">
+                    {results.map((item)=> (
+                        <div onClick={()=> navigate(`/profile/?userId=${item._id}`)} className="flex gap-3 p-2">
+                            <img src={"http://localhost:3000/uploads/profiles/"+item.profile} className="size-8 rounded-full"  />
+                            <p className="text-black font-[700]">{item.username}</p>
+                        </div>
+                    ))}
+                </div>
+            </form>
+            <IoReorderThree onClick={open} className="text-3xl md:hidden absolute left-5"/>
         </div>
-     );
+    </div>
+);
 }
- 
+
 export default ExploreTop;
