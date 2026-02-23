@@ -9,7 +9,7 @@ const Top = ({openNav}) => {
     }
 
     return ( 
-        <div className="flex px-5 py-5 justify-between fixed top-0 left-0 right-0 bg-black/60 text-white topNav">
+        <div className="flex px-5 py-5 justify-between sticky top-0 left-0 right-0 bg-black/60 text-white topNav">
             <IoReorderThree onClick={open} className="text-3xl"/>
             <FaXTwitter className="text-3xl" />
         </div>

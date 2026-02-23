@@ -110,15 +110,17 @@ const allPosts = async(req, res)=> {
 }
 
 const homePosts = async(req, res)=> {
-    const { followings } = req.body
+    const userId = req.user
+    /* const userAccount = await Account.find({_id: userId}, {_id: 0, followings: 1}) */
+    const followings = await Account.find({followers: userId})
     
     try{
         const posts = await Post.find({author: {$in: followings}})
         .populate("author")
-        res.status(200).json(posts)
+        return res.status(200).json(posts)
     }catch(error){
         console.log(err)
-        res.status(400).json({error: err.message})
+        return res.status(400).json({error: err.message})
     }
 }
 

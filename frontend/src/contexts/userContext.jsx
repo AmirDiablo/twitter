@@ -5,6 +5,7 @@ const UserContext = createContext()
 export const UserProvider = ({ children })=> {
     const [user, setUser] = useState()
     const [followings, setFollowings] = useState([])
+    const [token, setToken] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).token : "")
 
     const login = (value)=> {
         setUser(value)
@@ -43,7 +44,7 @@ export const UserProvider = ({ children })=> {
     console.log("user: ", user,"followings: ", followings)
     
     return (
-        <UserContext.Provider value={{user, followings, login, updateFollowings}}>
+        <UserContext.Provider value={{user, followings, login, updateFollowings, token}}>
             {children}
         </UserContext.Provider>
     )
