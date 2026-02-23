@@ -174,6 +174,7 @@ const bookmark = async(req, res)=> {
 const searchPost = async(req, res)=> {
     const q = req.query.q || ''
 
+
     if(!q) {
         return res.status(200).json([])
     }

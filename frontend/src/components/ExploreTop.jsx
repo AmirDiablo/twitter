@@ -49,7 +49,7 @@ const ExploreTop = ({openNav}) => {
     }
 
 return (
-    <div className="sticky top-0 left-0 right-0 topNav bg-black/30 backdrop-blur-2xl z-10">
+    <div className="sticky top-0 left-0 right-0  bg-black/30 backdrop-blur-2xl z-10">
         <div className="flex justify-center px-5 py-5 text-white">
             <form onSubmit={search} className="relative w-[66%]">
                 <div className="bg-gray-300 text-xl text-black h-max w-max p-[6px] rounded-full absolute top-0"><FiSearch onClick={search} /></div>
