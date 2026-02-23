@@ -58,11 +58,11 @@ return (
             <p className="font-[700] text-lg">{user.userInfo[0].username}</p>
             <div className="flex gap-4 mt-2 text-sm">
                 <div> 
-                    <span className="text-gray-500 ml-1">following</span> 
+                    <span className="text-gray-500 ml-1 mr-1">following</span> 
                     <span className="font-[600]">{user.userInfo[0].followings?.length || 0}</span>
                 </div>
                 <div> 
-                    <span className="text-gray-500 ml-1">followers</span> 
+                    <span className="text-gray-500 ml-1 mr-1">followers</span> 
                     <span className="font-[600]">{user.userInfo[0].followers?.length || 0}</span>
                 </div>
             </div>
