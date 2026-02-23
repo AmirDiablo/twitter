@@ -107,7 +107,7 @@ const Explore = () => {
   return (
     <div className="text-white flex min-h-screen">
       {/* SideNav برای دسکتاپ - sticky */}
-      <div className="hidden md:block md:w-64 flex-shrink-0">
+      <div className="hidden md:block md:w-70 flex-shrink-0">
         <div className="sticky top-0 h-screen">
           <SideNav />
         </div>
