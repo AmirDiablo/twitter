@@ -32,7 +32,7 @@ function App() {
           <Route path="bookmarks" element={user ? <Bookmarks /> : <SignUp />} />
         </Routes>
       </div>
-      <Create />
+      {user && <Create />}
       {user && <BottomNav />}
     </BrowserRouter>
   )

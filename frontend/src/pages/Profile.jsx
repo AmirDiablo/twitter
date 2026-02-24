@@ -19,8 +19,8 @@ const Profile = () => {
 
     const { user, updateFollowings, followings } = useUser()
 
-    const myId = user?.userInfo[0]?._id
-    const userId = useLocation().search.split("=")[1]
+    const myId = user._id
+    const userId = useLocation()?.search?.split("=")[1]
 
     const fetchUserInfo = async () => {
     try {

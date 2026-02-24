@@ -28,9 +28,10 @@ export const useLogin = () => {
             setError(json.error)
         }
         if(response.ok) {
+            console.log("user is :::: ", json)
             localStorage.setItem("user", JSON.stringify(json))
             setIsLoading(false)
-            login(json)
+            login([json.userInfo], json.token)
             navigate("/")
         }
     }

@@ -30,7 +30,7 @@ export const useSignUp = () => {
         if(response.ok) {
             localStorage.setItem("user", JSON.stringify(json))
             setIsLoading(false)
-            login(json)
+            login([json.userInfo], json.token)
             navigate("/")
         }
     }

@@ -114,7 +114,7 @@ const CreatePost = () => {
             }
             formData.append("text", text)
             formData.append("permission", permission)
-            formData.append("user", user.userInfo[0]._id)
+            formData.append("user", user._id)
             if (scheduledTime) {
                 formData.append("scheduledTime", scheduledTime.toISOString())
             }
@@ -123,7 +123,7 @@ const CreatePost = () => {
                 method: "POST",
                 body: formData,
                 headers: {
-                "authorization": `Bearer ${user.token}`
+                "authorization": `Bearer ${user.token}`  ///////////////////////////////////////////////////////////
                 }
             })
 
@@ -192,9 +192,9 @@ return (
             {/* پروفایل و متن */}
             <div className="flex gap-3">
                 <img
-                    src={"http://localhost:3000/uploads/profiles/" + user.userInfo[0].profile}
+                    src={"http://localhost:3000/uploads/profiles/" + user.profile}
                     className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                    alt={user.userInfo[0].username}
+                    alt={user.username}
                     onError={(e) => {
                         e.target.src = 'https://via.placeholder.com/40?text=User'
                     }}

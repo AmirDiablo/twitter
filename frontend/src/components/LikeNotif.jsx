@@ -12,7 +12,7 @@ const LikeNotif = ({notifs}) => {
                         <div className="text-white p-5">
                             <div className="flex items-center justify-between ">
                                 <div className="flex items-center justify-between gap-3 w-[100%] ">
-                                    <div onClick={()=> navigate("/profile", {state: {userInfo: [item.who]}})} className="flex items-center gap-3 ">
+                                    <div onClick={()=> navigate("/profile/?userId="+item.who._id)} className="flex items-center gap-3 ">
                                         <img src={"http://localhost:3000/uploads/profiles/"+item.who.profile} className="size-15 rounded-full" />
                                         <div className="text-sm"><p className="font-[700] inline">{item.who.username}</p> liked your post</div>
                                     </div>

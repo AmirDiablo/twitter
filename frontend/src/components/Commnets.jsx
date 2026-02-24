@@ -271,12 +271,12 @@ placeholder="نظر خود را بنویسید..."
 className="flex-1 bg-gray-800 text-white rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 onKeyPress={(e) => {
 if (e.key === 'Enter') {
-postComment(user?.userInfo[0]?._id)
+postComment(user?._id)
 }
 }}
 />
 <button
-onClick={() => postComment(user?.userInfo[0]?._id)}
+onClick={() => postComment(user?._id)}
 disabled={!text.trim()}
 className="bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
 >

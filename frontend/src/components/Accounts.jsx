@@ -6,7 +6,7 @@ const Accounts = ({info}) => {
     const { user, updateFollowings, followings } = useUser()
     const navigate = useNavigate()
 
-    const myId = user.userInfo[0]._id
+    const myId = user._id
     
     const follow = async(userId)=> {
         const response = await fetch("http://localhost:3000/api/account/follow", {

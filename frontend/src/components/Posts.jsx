@@ -28,12 +28,12 @@ const like = async (postId, postOwner) => {
 setPosts(prevPosts =>
 prevPosts.map(post => {
 if (post._id === postId) {
-const isLiked = post.likes.includes(user.userInfo[0]._id)
+const isLiked = post.likes.includes(user._id)
 return {
 ...post,
 likes: isLiked
-? post.likes.filter(id => id !== user.userInfo[0]._id)
-: [...post.likes, user.userInfo[0]._id]
+? post.likes.filter(id => id !== user._id)
+: [...post.likes, user._id]
 }
 }
 return post
@@ -43,7 +43,7 @@ return post
 // بعد درخواست به سرور
 const response = await fetch("http://localhost:3000/api/post/like", {
 method: "PUT",
-body: JSON.stringify({ postId, userId: user.userInfo[0]._id, postOwner, eventType: "like" }),
+body: JSON.stringify({ postId, userId: user._id, postOwner, eventType: "like" }),
 headers: {
 "Content-Type": "application/json"
 }
@@ -62,12 +62,12 @@ const bookmark = async (postId) => {
 setPosts(prevPosts =>
 prevPosts.map(post => {
 if (post._id === postId) {
-const isBookmarked = post.bookmarks.includes(user.userInfo[0]._id)
+const isBookmarked = post.bookmarks.includes(user._id)
 return {
 ...post,
 bookmarks: isBookmarked
-? post.bookmarks.filter(id => id !== user.userInfo[0]._id)
-: [...post.bookmarks, user.userInfo[0]._id]
+? post.bookmarks.filter(id => id !== user._id)
+: [...post.bookmarks, user._id]
 }
 }
 return post
@@ -77,7 +77,7 @@ return post
 // بعد درخواست به سرور
 const response = await fetch("http://localhost:3000/api/post/bookmark", {
 method: "PUT",
-body: JSON.stringify({ postId, userId: user.userInfo[0]._id }),
+body: JSON.stringify({ postId, userId: user._id }),
 headers: {
 "Content-Type": "application/json"
 }
@@ -187,7 +187,7 @@ className='flex items-center gap-2 text-gray-400 hover:text-blue-500 transition-
 onClick={() => like(item._id, item.author._id)}
 className='flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors'
 >
-{item.likes.includes(user.userInfo[0]._id) ? (
+{item.likes.includes(user._id) ? (
 <FaHeart className='text-red-500 text-lg sm:text-xl' />
 ) : (
 <FaRegHeart className='text-lg sm:text-xl' />
@@ -201,7 +201,7 @@ className='flex items-center gap-2 text-gray-400 hover:text-red-500 transition-c
 onClick={() => bookmark(item._id)}
 className='flex items-center gap-2 text-gray-400 hover:text-yellow-500 transition-colors'
 >
-{item.bookmarks.includes(user.userInfo[0]._id) ? (
+{item.bookmarks.includes(user._id) ? (
 <IoBookmark className='text-lg sm:text-xl' />
 ) : (
 <FaRegBookmark className='text-lg sm:text-xl' />

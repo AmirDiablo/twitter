@@ -8,62 +8,59 @@ import { useNavigate } from "react-router";
 import { useUser } from "../contexts/userContext";
 
 const SideNav = () => {
-const { user } = useUser()
-const navigate = useNavigate()
+    const { user } = useUser()
+    const navigate = useNavigate()
 
-// اضافه کردن console.log برای دیباگ
-console.log("SideNav user:", user);
+    const open = (page) => {
+        if (user?._id) {
+            navigate(`/${page}/?userId=${user._id}`);
+        } else {
+            // اگر user نبود، به صفحه لاگین هدایت شود
+            navigate('/login');
+        }
+    }
 
-const open = (page) => {
-if (user?.userInfo?.[0]?._id) {
-navigate(`/${page}/?userId=${user.userInfo[0]._id}`);
-} else {
-// اگر user نبود، به صفحه لاگین هدایت شود
-navigate('/login');
-}
-}
-
-// اگر user وجود نداشت، یک منوی پیش‌فرض نمایش بده
-if (!user || !user.userInfo || !user.userInfo[0]) {
-    return (
-        <div className="sideNav text-white bg-gray-950 h-full overflow-y-auto p-4">
-            <p className="text-center text-gray-400 mt-10">لطفا وارد شوید</p>
-            <div onClick={()=> navigate('/login')} className="flex items-center gap-3 text-lg font-[500] py-3 px-4 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors mt-4">
-                <IoPersonOutline />
-                <p>ورود / ثبت نام</p>
+    // اگر user وجود نداشت، یک منوی پیش‌فرض نمایش بده
+    if (!user) {
+        return (
+            <div className="sideNav text-white bg-gray-950 h-full overflow-y-auto p-4">
+                <p className="text-center text-gray-400 mt-10">لطفا وارد شوید</p>
+                <div onClick={()=> navigate('/login')} className="flex items-center gap-3 text-lg font-[500] py-3 px-4 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors mt-4">
+                    <IoPersonOutline />
+                    <p>ورود / ثبت نام</p>
+                </div>
+                <div onClick={()=> navigate('/')} className="flex items-center gap-3 text-lg font-[500] py-3 px-4 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors">
+                    <GoHome />
+                    <p>Home</p>
+                </div>
+                <div onClick={()=> navigate("/explore")} className="flex items-center gap-3 text-lg font-[500] py-3 px-4 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors">
+                    <FiSearch />
+                    <p>Search</p>
+                </div>
             </div>
-            <div onClick={()=> navigate('/')} className="flex items-center gap-3 text-lg font-[500] py-3 px-4 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors">
-                <GoHome />
-                <p>Home</p>
-            </div>
-            <div onClick={()=> navigate("/explore")} className="flex items-center gap-3 text-lg font-[500] py-3 px-4 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors">
-                <FiSearch />
-                <p>Search</p>
-            </div>
-        </div>
-    );
-}
+        );
+    }
 
 return (
     <div className="sideNav text-white bg-gray-950 h-full overflow-y-auto">
         <div className="px-4 py-6 border-b border-gray-800">
             <img 
-                src={"http://localhost:3000/uploads/profiles/"+user.userInfo[0].profile} 
+                src={"http://localhost:3000/uploads/profiles/"+user.profile} 
                 className="size-12 rounded-full object-cover mb-3" 
-                alt={user.userInfo[0].username}
+                alt={user.username}
                 onError={(e) => {
                 e.target.src = 'https://via.placeholder.com/48?text=User';
                 }}
             />
-            <p className="font-[700] text-lg">{user.userInfo[0].username}</p>
+            <p className="font-[700] text-lg">{user.username}</p>
             <div className="flex gap-4 mt-2 text-sm">
                 <div> 
                     <span className="text-gray-500 ml-1 mr-1">following</span> 
-                    <span className="font-[600]">{user.userInfo[0].followings?.length || 0}</span>
+                    <span className="font-[600]">{user.followings?.length || 0}</span>
                 </div>
                 <div> 
                     <span className="text-gray-500 ml-1 mr-1">followers</span> 
-                    <span className="font-[600]">{user.userInfo[0].followers?.length || 0}</span>
+                    <span className="font-[600]">{user.followers?.length || 0}</span>
                 </div>
             </div>
         </div>

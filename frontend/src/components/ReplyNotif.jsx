@@ -11,7 +11,7 @@ const ReplyNotif = ({notifs}) => {
                     {item.eventType === "reply" && 
                         <div className="text-white p-5 flex justify-between items-center gap-3">
                             <div className="flex items-center gap-3">
-                                <img onClick={()=> navigate("/profile", {state: {userInfo: [item.who]}})} src={"http://localhost:3000/uploads/profiles/"+item.who.profile} className="size-15 rounded-full" />
+                                <img onClick={()=> navigate("/profile/?userId="+item.who._id)} src={"http://localhost:3000/uploads/profiles/"+item.who.profile} className="size-15 rounded-full" />
                                 <div className="text-sm">
                                     <div className="text-sm"><p className="font-[700] inline">{item.who.username}</p> replied to your comment:</div>
                                     <p className="text-gray-400">{item.comment.text}</p>

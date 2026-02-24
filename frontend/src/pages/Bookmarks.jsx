@@ -15,7 +15,7 @@ const Bookmarks = () => {
 
     const fetchBookmarks = async()=> {
         setIsLoading(true)
-        const response = await fetch("http://localhost:3000/api/account/bookmarks/"+user.userInfo[0]._id)
+        const response = await fetch("http://localhost:3000/api/account/bookmarks/"+user._id)
         const json = await response.json()
 
         if(!response.ok) {

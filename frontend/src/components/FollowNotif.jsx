@@ -6,7 +6,7 @@ const FollowNotif = ({notifs}) => {
     const { user, updateFollowings, followings } = useUser()
     const navigate = useNavigate()
 
-    const myId = user.userInfo[0]._id
+    const myId = user._id
 
     const follow = async(userId)=> {
         const response = await fetch("http://localhost:3000/api/account/follow", {
@@ -34,7 +34,7 @@ const FollowNotif = ({notifs}) => {
                     {item.eventType === "follow" && 
                         <div className="text-white p-5 ">
                             <div className="flex items-center justify-between max-md:w-[100%]">
-                                <div onClick={()=> navigate("/profile", {state: {userInfo: [item.who]}})} className="flex items-center gap-3">
+                                <div onClick={()=> navigate("/profile/?userId="+item.who._id)} className="flex items-center gap-3">
                                     <img src={"http://localhost:3000/uploads/profiles/"+item.who.profile} className="size-15 rounded-full" />
                                     <div className="text-sm"><p className="font-[700] inline">{item.who.username}</p> started following you</div>
                                 </div>

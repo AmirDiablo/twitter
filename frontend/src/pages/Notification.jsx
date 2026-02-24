@@ -22,7 +22,7 @@ const Notification = () => {
     const lastPostRef = useRef();
     const [page, setPage] = useState(1); */
 
-    const myId = user.userInfo[0]._id
+    const myId = user._id
 
     const fetchNotifs = async(userId)=> {
         const response = await fetch("http://localhost:3000/api/notification/"+userId)

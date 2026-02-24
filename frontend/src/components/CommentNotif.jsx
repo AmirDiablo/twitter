@@ -11,7 +11,7 @@ const CommentNotif = ({notifs}) => {
                     {item.eventType === "comment" && 
                         <div className="text-white p-5 flex items-center gap-3">
                             <div className="flex items-center gap-3 w-[100%]">
-                                <img onClick={()=> navigate("/profile", {state: {userInfo: [item.who]}})} src={"http://localhost:3000/uploads/profiles/"+item.who.profile} className="size-15 rounded-full" />
+                                <img onClick={()=> navigate("/profile/?userId="+item.who._id)} src={"http://localhost:3000/uploads/profiles/"+item.who.profile} className="size-15 rounded-full" />
                                 <div className="text-sm">
                                     <div className="text-sm"><p className="font-[700] inline">{item.who.username}</p> commented on your post:</div>
                                     <p className="text-gray-400">{item.comment.text}</p>

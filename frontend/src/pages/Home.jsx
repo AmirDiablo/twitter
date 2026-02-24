@@ -7,7 +7,7 @@ import { useUser } from "../contexts/userContext";
 const Home = () => {
     const [open, setOpen] = useState(false)
     const [posts, setPosts] = useState([])
-    const { user, token } = useUser()
+    const { token } = useUser()
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
     const [error, setError] = useState(null);
     const [hasMore, setHasMore] = useState(true);
