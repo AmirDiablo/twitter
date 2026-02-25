@@ -5,7 +5,6 @@ const ReplyNotif = ({notifs}) => {
     
     return ( 
         <div>
-
             {notifs.map((item)=> (
                 <div className="w-[100%]">
                     {item.eventType === "reply" && 
@@ -22,7 +21,6 @@ const ReplyNotif = ({notifs}) => {
                     }
                 </div>
             ))}
-
         </div>
     );
 }

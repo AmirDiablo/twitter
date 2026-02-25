@@ -135,11 +135,10 @@ export const UserProvider = ({ children }) => {
         fetchUserData()
     }, [])
 
-    console.log(user)
-
     // مقدار context
     const value = useMemo(() => ({
         user,
+        setUser,
         followings,
         token: getToken(),
         login,

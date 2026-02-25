@@ -177,8 +177,8 @@ return (
                         {/* دکمه اکشن */}
                         <div className="absolute top-4 right-4">
                             {userId === myId ? (
-                                <button className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 rounded-full py-2 px-5 transition-colors text-sm font-medium">
-                                ویرایش پروفایل
+                                <button onClick={()=> navigate("/editProfile")} className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 rounded-full py-2 px-5 transition-colors text-sm font-medium">
+                                    Edit profile
                                 </button>
                             ) : (
                                 <div className="flex gap-2">

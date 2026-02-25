@@ -12,6 +12,7 @@ import Search from "./pages/Search"
 import OpenedPost from "./pages/OpenedPost"
 import Bookmarks from "./pages/Bookmarks"
 import { useUser } from "./contexts/userContext"
+import EditProfile from "./pages/EditProfile"
 
 function App() {
   const {user} = useUser()
@@ -24,6 +25,7 @@ function App() {
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
           <Route path="profile" element={user ? <Profile /> : <SignUp />} />
+          <Route path="editProfile" element={user ? <EditProfile /> : <SignUp />} />
           <Route path="notification" element={user ? <Notification /> : <SignUp />} />
           <Route path="createPost" element={user ? <CreatePost /> : <SignUp />} />
           <Route path="explore" element={user ? <Explore /> : <SignUp />} />
