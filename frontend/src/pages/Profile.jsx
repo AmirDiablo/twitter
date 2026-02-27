@@ -8,48 +8,65 @@ import { useUser } from "../contexts/userContext";
 import SideNav from "../components/SideNav";
 import { FaUserPlus, FaUserCheck } from "react-icons/fa";
 import { BiMessageDetail } from "react-icons/bi";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const Profile = () => {
     const navigate = useNavigate()
     const [posts, setPosts] = useState([])
     const [userInfo, setUserInfo] = useState([])
+    const [replies, setReplies] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState('posts') // 'posts', 'replies', 'media'
 
-    const { user, updateFollowings, followings } = useUser()
+    const { user, updateFollowings, followings, token } = useUser()
 
     const myId = user._id
     const userId = useLocation()?.search?.split("=")[1]
 
     const fetchUserInfo = async () => {
-    try {
-    const response = await fetch("http://localhost:3000/api/account/profile/" + userId)
-    const json = await response.json()
+        try {
+            const response = await fetch("http://localhost:3000/api/account/profile/" + userId)
+            const json = await response.json()
 
-    if (response.ok) {
-    setUserInfo(json)
-    } else {
-    setError('خطا در دریافت اطلاعات کاربر')
-    }
-    } catch (err) {
-    setError('خطا در ارتباط با سرور')
-    }
+            if (response.ok) {
+            setUserInfo(json)
+            } else {
+            setError('خطا در دریافت اطلاعات کاربر')
+            }
+        } catch (err) {
+            setError('خطا در ارتباط با سرور')
+        }
     }
 
     const fetchPosts = async () => {
-    try {
-    const response = await fetch("http://localhost:3000/api/post/userPosts/" + userId)
-    const json = await response.json()
+        try {
+            const response = await fetch("http://localhost:3000/api/post/userPosts/" + userId)
+            const json = await response.json()
 
-    if (response.ok) {
-    setPosts(json)
+            if (response.ok) {
+                setPosts(json)
+            }
+        } catch (err) {
+            setError('خطا در دریافت پست‌ها')
+        } finally {
+            setLoading(false)
+        }
     }
-    } catch (err) {
-    setError('خطا در دریافت پست‌ها')
-    } finally {
-    setLoading(false)
-    }
+
+    const fetchReplies = async () => {
+        const response = await fetch("http://localhost:3000/api/account/replies", {
+            method: "GET",
+            headers: {
+                "Authorization" : `Bearer ${token}`
+            }
+        })
+        
+        const json = await response.json()
+
+        if(response.ok) {
+            setReplies(json.replies)
+        }
     }
 
     useEffect(() => {
@@ -57,6 +74,12 @@ const Profile = () => {
         fetchUserInfo()
         fetchPosts()
     }, [userId])
+
+    useEffect(()=> {
+        if(activeTab === "replies") {
+            fetchReplies()
+        }
+    }, [activeTab])
 
     const follow = async () => {
         try {
@@ -86,13 +109,13 @@ const Profile = () => {
 
     if (loading) {
         return (
-                <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-                    <div className="text-center">
-                        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                        <p className="text-gray-400">در حال بارگذاری...</p>
-                    </div>
+            <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
+                <div className="text-center">
+                    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-400">در حال بارگذاری...</p>
                 </div>
-            )
+            </div>
+        )
     }
 
     if (error || !userInfo.length) {
@@ -278,11 +301,36 @@ return (
                     {/* محتوای تب‌ها */}
                     <div className="py-4">
                         {activeTab === 'posts' && <Posts allPosts={posts} />}
-                        {activeTab === 'replies' && (
-                        <div className="text-center text-gray-500 py-16">
-                             هیچ پاسخی وجود ندارد
-                        </div>
-                        )}
+
+                        {activeTab === 'replies' &&
+                            <div className="pb-10">
+                                {replies.length != 0 ? 
+                                    replies.map(reply=> (
+                                        <div className="text-white py-5 px-10 odd:bg- even:bg-white/10">
+                                            <div className="flex justify-between">
+                                                <div className="flex items-center gap-3">
+                                                    <img src={"http://localhost:3000/uploads/profiles/"+reply.userId.profile} alt="profile" className="rounded-full aspect-square w-10 object-cover " />
+                                                    <p className="">{reply.userId.username}</p>
+                                                </div>
+                                                <div className="hover:bg-white/10 hover:cursor-pointer text-red-500 rounded-full aspect-square w-10 flex items-center justify-center"><FaRegTrashAlt /></div>
+                                            </div>
+                                            <div className="flex justify-between pt-2 items-start">
+                                                <p className="pl-13">{reply.text}</p>
+                                                {reply.postId.type != "text" ? 
+                                                    <img onClick={()=> navigate(`/openedPost/?${reply.postId._id}`)} src={"http://localhost:3000/uploads/posts/"+reply.postId.content.file} className="aspect-square w-13 hover:cursor-pointer rounded-md object-cover" /> :
+                                                    <div onClick={()=> navigate(`/openedPost/?${reply.postId._id}`)} className="bg-blue-400  aspect-square w-13 text-center hover:cursor-pointer rounded-md">See Post</div>
+                                                }
+                                            </div>
+                                            
+                                        </div>
+                                    )) :
+                                    <div className="text-center text-gray-500 py-16">
+                                        هیچ پاسخی وجود ندارد
+                                    </div>
+                                }
+                            </div>
+                        }
+
                         {activeTab === 'media' && (
                             <div className="text-center text-gray-500 py-16">
                             هیچ رسانه‌ای وجود ندارد

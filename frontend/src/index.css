@@ -5,6 +5,15 @@ body{
     border-bottom: 1px solid #ffffff34;
 }
 
+.hideScroll::-webkit-scrollbar {
+    display: none;
+}
+
+.hideScroll {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox, Safari 18.2+, Chromium 121+ */
+}
+
 .textarea {
     border: 1px solid #ccc;
     font-family: inherit;

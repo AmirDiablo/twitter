@@ -1,5 +1,6 @@
 const Account = require('../models/accountModel')
 const Notification = require("../models/notificationModel")
+const Comment = require("../models/commentModel")
 const validator = require("validator")
 const jwt = require("jsonwebtoken")
 const fs = require("fs")
@@ -275,4 +276,16 @@ const changeProfile = async (req, res) => {
     }
 }
 
-module.exports = { userSignup, userLogin, profile, follow, liveSearch, searchPeople, bookmarks, changeProfile }
+const replies = async (req, res) => {
+    try {
+        const userId = req.user._id
+
+        const userReplies = await Comment.find({userId: userId}).populate("userId").populate("postId")
+        
+        res.status(200).json({success: true, replies: userReplies})
+    } catch (error) {
+        res.status(400).json({success: false, message: error.message})
+    }
+}
+
+module.exports = { userSignup, userLogin, profile, follow, liveSearch, searchPeople, bookmarks, changeProfile, replies }
