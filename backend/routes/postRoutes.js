@@ -1,5 +1,5 @@
 const express = require("express")
-const { createPost, allPosts, userPosts, homePosts, like, bookmark, searchPost } = require("../controllers/postControllers")
+const { createPost, allPosts, userPosts, homePosts, like, bookmark, searchPost, onePost } = require("../controllers/postControllers")
 const upload = require("../upload")
 const userAuth = require("../middlewares/userAuth")
 
@@ -12,5 +12,6 @@ router.get("/homePosts", userAuth, homePosts)
 router.put("/like", like)
 router.put("/bookmark", bookmark)
 router.get("/posts", searchPost)
+router.get("/", onePost)
 
 module.exports = router

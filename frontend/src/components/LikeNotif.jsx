@@ -16,7 +16,7 @@ const LikeNotif = ({notifs}) => {
                                         <img src={"http://localhost:3000/uploads/profiles/"+item.who.profile} className="size-15 rounded-full" />
                                         <div className="text-sm"><p className="font-[700] inline">{item.who.username}</p> liked your post</div>
                                     </div>
-                                    {item.post.content.file ? <img onClick={()=> navigate("/openedPost", {state: {postInfo: [item.post]}})} src={"http://localhost:3000/uploads/posts/"+item.post.content.file} className="size-15 rounded-[7px]" /> : <div onClick={()=> navigate("/openedPost", {state: {postInfo: [item.post]}})} className="size-15 rounded-[7px] bg-gray-800 " />}
+                                    {item.post.content.file ? <img onClick={()=> navigate("/openedPost/?postId="+item.post._id)} src={"http://localhost:3000/uploads/posts/"+item.post.content.file} className="size-15 rounded-[7px]" /> : <div onClick={()=> navigate("/openedPost", {state: {postInfo: [item.post]}})} className="size-15 rounded-[7px] bg-gray-800 " />}
                                 </div>
                             </div>
                         </div>

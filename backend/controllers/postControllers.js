@@ -193,4 +193,14 @@ const searchPost = async(req, res)=> {
     }
 }
 
-module.exports = { createPost, allPosts, userPosts, homePosts, like, bookmark, searchPost }
+const onePost = async (req, res) => {
+    try {
+        const postId = req.query.postId
+        const post = await Post.find({_id: postId}).populate("author")
+        res.status(200).json(post)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+module.exports = { createPost, allPosts, userPosts, homePosts, like, bookmark, searchPost, onePost }

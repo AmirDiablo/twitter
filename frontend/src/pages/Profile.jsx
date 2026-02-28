@@ -317,8 +317,8 @@ return (
                                             <div className="flex justify-between pt-2 items-start">
                                                 <p className="pl-13">{reply.text}</p>
                                                 {reply.postId.type != "text" ? 
-                                                    <img onClick={()=> navigate(`/openedPost/?${reply.postId._id}`)} src={"http://localhost:3000/uploads/posts/"+reply.postId.content.file} className="aspect-square w-13 hover:cursor-pointer rounded-md object-cover" /> :
-                                                    <div onClick={()=> navigate(`/openedPost/?${reply.postId._id}`)} className="bg-blue-400  aspect-square w-13 text-center hover:cursor-pointer rounded-md">See Post</div>
+                                                    <img onClick={()=> navigate(`/openedPost/?postId=${reply.postId._id}`)} src={"http://localhost:3000/uploads/posts/"+reply.postId.content.file} className="aspect-square w-13 hover:cursor-pointer rounded-md object-cover" /> :
+                                                    <div onClick={()=> navigate(`/openedPost/?postId=${reply.postId._id}`)} className="bg-blue-400  aspect-square w-13 text-center hover:cursor-pointer rounded-md">See Post</div>
                                                 }
                                             </div>
                                             

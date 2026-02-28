@@ -17,7 +17,7 @@ const CommentNotif = ({notifs}) => {
                                     <p className="text-gray-400">{item.comment.text}</p>
                                 </div>
                             </div>
-                            <img onClick={()=> navigate("/openedPost", {state: {postInfo: [item.post]}})} src={"http://localhost:3000/uploads/posts/"+item.post.content.file} className="size-15 rounded-[7px]" />
+                            <img onClick={()=> navigate("/openedPost/?postId="+item.post._id)} src={"http://localhost:3000/uploads/posts/"+item.post.content.file} className="size-15 rounded-[7px]" />
                         </div>
                     }
                 </div>

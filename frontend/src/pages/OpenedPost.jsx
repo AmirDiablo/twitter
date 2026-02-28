@@ -2,13 +2,33 @@ import { useLocation, useNavigate } from "react-router";
 import Posts from "../components/Posts";
 import { IoIosArrowBack } from "react-icons/io";
 import SideNav from "../components/SideNav";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const OpenedPost = () => {
     const navigate = useNavigate()
-    const {state} = useLocation()
-    const {postInfo} = state
+    const postId = useLocation().search.split("=")[1]
+    console.log(postId)
+    const [postInfo, setPostInfo] = useState([])
     const [error, setError] = useState()
+
+    const fetchPost = async () => {
+        setError(null)
+        const response = await fetch("http://localhost:3000/api/post/?postId="+postId)
+        const json = await response.json()
+
+        if(response.ok) {
+            setPostInfo(json)
+            setError(null)
+        }
+
+        if(!response.ok) {
+            setError(json.message)
+        }
+    }
+
+    useEffect(()=> {
+        fetchPost()
+    }, [])
 
     return ( 
         <div className="text-white flex min-h-screen">

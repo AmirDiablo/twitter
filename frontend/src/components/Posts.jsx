@@ -21,6 +21,7 @@ const Posts = ({ allPosts }) => {
     // آپدیت کردن posts وقتی allPosts تغییر میکنه
     useEffect(() => {
         setPosts(allPosts)
+        console.log("all posts: ", allPosts)
     }, [allPosts])
 
     const like = async (postId, postOwner) => {
